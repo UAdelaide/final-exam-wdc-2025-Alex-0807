@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
-<title>Dog of the Day – Totally Overloaded Page</title>
+<title>Dog of the Day Totally Overloaded Page</title>
 <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
 
 <!--  -->
@@ -84,7 +84,7 @@ createApp({
         const res = await fetch('https://dog.ceo/api/breeds/image/random');
         const data = await res.json();
         this.dogPic = data.message;
-        this.clickCount = 0; // 重新开始“点三次”游戏
+        this.clickCount = 0; // rest click count after fetching a new dog
       } catch (e) {
         alert('Failed to fetch dog :(');
       }
