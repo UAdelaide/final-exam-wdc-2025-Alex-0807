@@ -33,7 +33,7 @@ const setupDatabase = async () => {
       DROP TABLE IF EXISTS users;
 
       CREATE TABLE users (
-        user_id SERIAL PRIMARY KEY,
+        user_id INT AUTO_INCREMENT PRIMARY KEY,
         username VARCHAR(255) UNIQUE NOT NULL,
         email VARCHAR(255) UNIQUE NOT NULL,
         password_hash VARCHAR(255) NOT NULL,
