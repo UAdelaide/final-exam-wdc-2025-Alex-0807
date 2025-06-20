@@ -176,7 +176,6 @@ app.get('/api/walkers/summary', async (req, res) => {
   }
 });
 
-// 启动服务器
 (async () => {
   try {
     await setupDatabase();
