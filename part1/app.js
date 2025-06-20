@@ -53,7 +53,7 @@ const setupDatabase = async () => {
         request_time TIMESTAMP NOT NULL,
         duration_minutes INTEGER NOT NULL,
         location VARCHAR(255) NOT NULL,
-        status VARCHAR(50) NOT NULL CHECK (status IN ('open', 'accepted', 'completed', 'cancelled')),
+        status VARCHAR(50) NOT NULL ENUM (status IN ('open', 'accepted', 'completed', 'cancelled')),
         walker_id INTEGER REFERENCES users(user_id)
       );
 
