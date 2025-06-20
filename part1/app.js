@@ -53,7 +53,7 @@ const setupDatabase = async () => {
         request_time TIMESTAMP NOT NULL,
         duration_minutes INTEGER NOT NULL,
         location VARCHAR(255) NOT NULL,
-        status VARCHAR(50) NOT NULL ENUM (status IN ('open', 'accepted', 'completed', 'cancelled')),
+        status VARCHAR(50) NOT NULL ENUM  ('open', 'accepted', 'completed', 'cancelled'),
         walker_id INTEGER REFERENCES users(user_id)
       );
 
@@ -62,7 +62,7 @@ const setupDatabase = async () => {
           walk_request_id INTEGER UNIQUE NOT NULL REFERENCES walk_requests(request_id),
           rated_user_id INTEGER NOT NULL REFERENCES users(user_id), -- 被评分的用户 (遛狗员)
           rated_by_id INTEGER NOT NULL REFERENCES users(user_id), -- 评分的用户 (主人)
-          rating INTEGER NOT NULL CHECK (rating >= 1 AND rating <= 5)
+          rating INTEGER NOT NULL ENUM (rating >= 1 AND rating <= 5)
       );
     `);
 
