@@ -1,5 +1,6 @@
 const express = require('express');
 const { Pool } = require('pg');
+const mysql = require('mysql2/promise');
 
 const app = express();
 const port = 8080;
@@ -82,7 +83,7 @@ const setupDatabase = async () => {
       -- Completed walks for bobwalker
       ((SELECT dog_id FROM dogs WHERE name = 'Bella'), '2025-05-20 14:00:00', 45, 'Green Valley', 'completed', (SELECT user_id FROM users WHERE username = 'bobwalker')),
       ((SELECT dog_id FROM dogs WHERE name = 'Rocky'), '2025-05-21 09:00:00', 30, 'River Path', 'completed', (SELECT user_id FROM users WHERE username = 'bobwalker'));
-      
+
       INSERT INTO ratings (walk_request_id, rated_user_id, rated_by_id, rating) VALUES
       (
         (SELECT request_id FROM walk_requests WHERE dog_id = (SELECT dog_id FROM dogs WHERE name = 'Bella')),
@@ -111,10 +112,10 @@ const setupDatabase = async () => {
 app.get('/api/dogs', async (req, res) => {
   try {
     const query = `
-      SELECT 
-        d.name AS dog_name, 
-        d.size, 
-        u.username AS owner_username 
+      SELECT
+        d.name AS dog_name,
+        d.size,
+        u.username AS owner_username
       FROM dogs d
       JOIN users u ON d.owner_id = u.user_id;
     `;
@@ -130,13 +131,13 @@ app.get('/api/dogs', async (req, res) => {
 app.get('/api/walkrequests/open', async (req, res) => {
   try {
     const query = `
-      SELECT 
-        wr.request_id, 
-        d.name AS dog_name, 
-        wr.request_time, 
-        wr.duration_minutes, 
-        wr.location, 
-        u.username AS owner_username 
+      SELECT
+        wr.request_id,
+        d.name AS dog_name,
+        wr.request_time,
+        wr.duration_minutes,
+        wr.location,
+        u.username AS owner_username
       FROM walk_requests wr
       JOIN dogs d ON wr.dog_id = d.dog_id
       JOIN users u ON d.owner_id = u.user_id
@@ -179,7 +180,7 @@ app.get('/api/walkers/summary', async (req, res) => {
       WHERE u.role = 'walker';
     `;
     const { rows } = await pool.query(query);
-    
+
     // 将数据库返回的字符串类型转换为正确的数字类型
     const summary = rows.map(row => ({
       ...row,
@@ -199,7 +200,7 @@ const startServer = async () => {
   try {
     // 1. 设置数据库 (创建表和插入数据)
     await setupDatabase();
-    
+
     // 2. 启动 Express 服务器
     app.listen(port, () => {
       console.log(`Server is running on http://localhost:${port}`);
@@ -214,4 +215,4 @@ const startServer = async () => {
   }
 };
 
-startServer(); 
+startServer();
