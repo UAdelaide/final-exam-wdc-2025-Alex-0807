@@ -76,6 +76,7 @@ createApp({
   mounted() {
     this.getDog();
     // kinematic load: update time every second
+    // cognitive load: user has to read the time every second
     setInterval(() => { this.now = new Date().toLocaleTimeString(); }, 1000);
   },
   methods: {
