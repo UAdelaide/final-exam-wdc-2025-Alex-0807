@@ -37,7 +37,7 @@ const setupDatabase = async () => {
         username VARCHAR(255) UNIQUE NOT NULL,
         email VARCHAR(255) UNIQUE NOT NULL,
         password_hash VARCHAR(255) NOT NULL,
-        role VARCHAR(50) NOT NULL CHECK (role IN ('owner', 'walker'))
+        role VARCHAR(50) NOT NULL enum (role IN ('owner', 'walker'))
       );
 
       CREATE TABLE dogs (
@@ -62,7 +62,7 @@ const setupDatabase = async () => {
           walk_request_id INTEGER UNIQUE NOT NULL REFERENCES walk_requests(request_id),
           rated_user_id INTEGER NOT NULL REFERENCES users(user_id), -- 被评分的用户 (遛狗员)
           rated_by_id INTEGER NOT NULL REFERENCES users(user_id), -- 评分的用户 (主人)
-          rating INTEGER NOT NULL ENUM (rating >= 1 AND rating <= 5)
+          rating INTEGER NOT NULL CHECK (rating BETWEEN 1 AND 5)
       );
     `);
 
