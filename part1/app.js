@@ -7,19 +7,17 @@ const port = 8080;
 
 const dbConfig = {
   host: 'localhost',
-  user: 'root',      
+  user: 'root',
   // database: 'dogwalks'
 };
 
 let db;
 
-// 数据库初始化
 async function setupDatabase() {
   db = await mysql.createConnection(dbConfig);
   await db.execute(`CREATE DATABASE IF NOT EXISTS dogwalks`);
   await db.changeUser({ database: 'dogwalks' });
 
-  // 创建表
   await db.execute(`DROP TABLE IF EXISTS ratings`);
   await db.execute(`DROP TABLE IF EXISTS walk_requests`);
   await db.execute(`DROP TABLE IF EXISTS dogs`);
@@ -103,7 +101,7 @@ async function setupDatabase() {
   console.log('数据库初始化完成');
 }
 
-// API端点
+// API
 
 // 1. /api/dogs
 app.get('/api/dogs', async (req, res) => {
