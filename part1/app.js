@@ -41,14 +41,14 @@ const setupDatabase = async () => {
       );
 
       CREATE TABLE dogs (
-        dog_id SERIAL PRIMARY KEY,
+        dog_id INT AUTO_INCREMENT PRIMARY KEY,
         name VARCHAR(255) NOT NULL,
         size VARCHAR(50),
         owner_id INTEGER NOT NULL REFERENCES users(user_id)
       );
 
       CREATE TABLE walk_requests (
-        request_id SERIAL PRIMARY KEY,
+        request_id INT AUTO_INCREMENT PRIMARY KEY,
         dog_id INTEGER NOT NULL REFERENCES dogs(dog_id),
         request_time TIMESTAMP NOT NULL,
         duration_minutes INTEGER NOT NULL,
@@ -58,7 +58,7 @@ const setupDatabase = async () => {
       );
 
       CREATE TABLE ratings (
-          rating_id SERIAL PRIMARY KEY,
+          rating_id INT AUTO_INCREMENT PRIMARY KEY,
           walk_request_id INTEGER UNIQUE NOT NULL REFERENCES walk_requests(request_id),
           rated_user_id INTEGER NOT NULL REFERENCES users(user_id), -- 被评分的用户 (遛狗员)
           rated_by_id INTEGER NOT NULL REFERENCES users(user_id), -- 评分的用户 (主人)
