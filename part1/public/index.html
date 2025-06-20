@@ -1,35 +1,56 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8" />
-<title>Dog of the Day Totally Overloaded Page</title>
-<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  <meta charset="UTF-8" />
+  <title>Dog of the Day Totally Overloaded Page</title>
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
 
-<!--  -->
-<style>
-  body {
-    background: #222; color: #666; /* cognitive load:bad contrast！ */
-    font-family: "Comic Sans MS", cursive, sans-serif;
-    animation: bgflash 1s infinite alternate; /* cognitive load:dizzy animation */
-  }
-  @keyframes bgflash { 0% { filter: hue-rotate(0deg);} 100% { filter: hue-rotate(180deg);} }
+  <!--  -->
+  <style>
+    body {
+      background: #222;
+      color: #666;
+      /* cognitive load:bad contrast！ */
+      font-family: "Comic Sans MS", cursive, sans-serif;
+      animation: bgflash 1s infinite alternate;
+      /* cognitive load:dizzy animation */
+    }
 
-  h1 { font-size: 48px; text-shadow: 3px 3px #ff00ff; } /* exaggerate shadow */
-  .card {
-    border: 5px dashed lime;
-    padding: 1rem;
-    margin: 1rem auto;
-    width: 80%;
-    transform: rotate(-2deg); /* cognitive load: the card is rotated, increase the visual burden */
-  }
-  /* kinematic load, minimal clicking area */
-  .tiny-btn {
-    font-size: 10px;
-    padding: 2px 4px;
-    cursor: pointer;
-  }
-</style>
+    @keyframes bgflash {
+      0% {
+        filter: hue-rotate(0deg);
+      }
+
+      100% {
+        filter: hue-rotate(180deg);
+      }
+    }
+
+    h1 {
+      font-size: 48px;
+      text-shadow: 3px 3px #ff00ff;
+    }
+
+    /* exaggerate shadow */
+    .card {
+      border: 5px dashed lime;
+      padding: 1rem;
+      margin: 1rem auto;
+      width: 80%;
+      transform: rotate(-2deg);
+      /* cognitive load: the card is rotated, increase the visual burden */
+    }
+
+    /* kinematic load, minimal clicking area */
+    .tiny-btn {
+      font-size: 10px;
+      padding: 2px 4px;
+      cursor: pointer;
+    }
+  </style>
 </head>
+
 <body>
   <div id="app">
     <!-- kinematic load distraction  -->
@@ -52,48 +73,49 @@
     </div>
   </div>
 
-<script>
-const { createApp } = Vue;
+  <script>
+    const { createApp } = Vue;
 
-createApp({
-  data() {
-    return {
-      dogPic: '',
-      longBio: 'rthrsdfgerhedafgasdfsadg' +
-               'awegadsfgfathethdxfzasdgh ' +
-               'aergdsfhryrheragadgasdg' +
-               'awegdsfgehadfgawrgd ' +
-               'awegeathrgdsearga ' +
-               'aergrthjkiliuy6tredfghj' +
-               'weghjhytgrfdefrgthyuiuytrerhnbfv, ' +
-               'dfgfdsdertyuikjmnbvcdsertyuj. ' +
-               'dfghjuytresdcvbnm,klopiuytrewsdxc',
-      clickCount: 0,
-      now: new Date().toLocaleTimeString()
-    };
-  },
-  mounted() {
-    this.getDog();
-    // kinematic load: update time every second
-    // cognitive load: user has to read the time every second
-    setInterval(() => { this.now = new Date().toLocaleTimeString(); }, 1000);
-  },
-  methods: {
-    async getDog() {
-      try {
-        const res = await fetch('https://dog.ceo/api/breeds/image/random');
-        const data = await res.json();
-        this.dogPic = data.message;
-        this.clickCount = 0; // rest click count after fetching a new dog
-      } catch (e) {
-        alert('Failed to fetch dog :(');
+    createApp({
+      data() {
+        return {
+          dogPic: '',
+          longBio: 'rthrsdfgerhedafgasdfsadg' +
+            'awegadsfgfathethdxfzasdgh ' +
+            'aergdsfhryrheragadgasdg' +
+            'awegdsfgehadfgawrgd ' +
+            'awegeathrgdsearga ' +
+            'aergrthjkiliuy6tredfghj' +
+            'weghjhytgrfdefrgthyuiuytrerhnbfv, ' +
+            'dfgfdsdertyuikjmnbvcdsertyuj. ' +
+            'dfghjuytresdcvbnm,klopiuytrewsdxc',
+          clickCount: 0,
+          now: new Date().toLocaleTimeString()
+        };
+      },
+      mounted() {
+        this.getDog();
+        // kinematic load: update time every second
+        // cognitive load: user has to read the time every second
+        setInterval(() => { this.now = new Date().toLocaleTimeString(); }, 1000);
+      },
+      methods: {
+        async getDog() {
+          try {
+            const res = await fetch('https://dog.ceo/api/breeds/image/random');
+            const data = await res.json();
+            this.dogPic = data.message;
+            this.clickCount = 0; // rest click count after fetching a new dog
+          } catch (e) {
+            alert('Failed to fetch dog :(');
+          }
+        },
+        showAlert() {
+          alert('Double-click detected! Why so complicated?');
+        }
       }
-    },
-    showAlert() {
-      alert('Double-click detected! Why so complicated?');
-    }
-  }
-}).mount('#app');
-</script>
+    }).mount('#app');
+  </script>
 </body>
+
 </html>
