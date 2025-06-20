@@ -65,10 +65,10 @@
       <p><strong>Bio:</strong> {{ longBio }}</p>
       <!-- many click to refresh -->
       <button class="tiny-btn" @click="clickCount++" v-if="clickCount < 3">
-        Click {{ 3 - clickCount }} more time(s) to refresh photo
+        Click {{ 3 - clickCount }} more times to refresh the photo
       </button>
       <button class="tiny-btn" @click="getDog" v-else>
-        Finally, get me a new dog!
+        Get me a new dog!
       </button>
     </div>
   </div>
