@@ -7,12 +7,13 @@ const port = 8080;
 
 // --- 数据库连接配置 ---
 // 在实际应用中，这些信息应该来自环境变量
-const pool = new Pool({
-  user: 'postgres',      // 默认的postgres用户
+const pool = mysql.createPool({
   host: 'localhost',
-  database: 'dogwalks',  // 确保这个数据库已创建
-  password: '060822',  // **重要**: 请替换为您的Postgres密码
-  port: 5432,
+  user: 'root',
+  password: 'YOUR PASSWORD',
+  database: 'dogwalks',      // 确保 CREATE DATABASE dogwalks; 已执行
+  waitForConnections: true,
+  connectionLimit: 10
 });
 
 // --- 中间件 ---
