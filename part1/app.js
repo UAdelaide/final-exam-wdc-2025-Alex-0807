@@ -37,7 +37,7 @@ const setupDatabase = async () => {
         username VARCHAR(255) UNIQUE NOT NULL,
         email VARCHAR(255) UNIQUE NOT NULL,
         password_hash VARCHAR(255) NOT NULL,
-        role VARCHAR(50) NOT NULL enum (role IN ('owner', 'walker'))
+        role VARCHAR(50) NOT NULL ENUM ('owner', 'walker')
       );
 
       CREATE TABLE dogs (
