@@ -5,10 +5,9 @@ const mysql = require('mysql2/promise');
 const app = express();
 const port = 8080;
 
-// 数据库连接配置
 const dbConfig = {
   host: 'localhost',
-  user: 'root',      // MySQL用户名
+  user: 'root',      
   // database: 'dogwalks'
 };
 
@@ -73,7 +72,6 @@ async function setupDatabase() {
     )
   `);
 
-  // 插入测试数据
   await db.execute(`
     INSERT INTO users (username, email, password_hash, role) VALUES
     ('alice123', 'alice@example.com', 'hashed123', 'owner'),
