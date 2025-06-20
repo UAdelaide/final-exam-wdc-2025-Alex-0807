@@ -9,7 +9,7 @@ const port = 8080;
 const dbConfig = {
   host: 'localhost',
   user: 'root',      // MySQL用户名
-  database: 'dogwalks'
+  // database: 'dogwalks'
 };
 
 let db;
