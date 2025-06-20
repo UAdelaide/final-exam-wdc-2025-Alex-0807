@@ -8,6 +8,10 @@ const session = require('express-session');
 const app = express();
 
 // Middleware
+app.use((req, res, next) => {
+  console.log('[DEBUG]', req.method, req.path);
+  next();
+});
 app.use(express.json());
 app.use(express.static(path.join(__dirname, '/public')));
 
