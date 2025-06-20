@@ -4,7 +4,7 @@ var search = null;
 /*
  * Hides the main part of the page to show the Ask a Question section
  */
-function showAsk(){
+function showAsk() {
     var main = document.getElementById("main");
     var ask = document.getElementById("ask");
     main.style.display = "none";
@@ -15,7 +15,7 @@ function showAsk(){
  * Hides the Ask a Question section of the page to show the main part,
  * clearing the question input fields.
  */
-function showMain(){
+function showMain() {
     var main = document.getElementById("main");
     var ask = document.getElementById("ask");
     ask.style.display = "none";
@@ -29,7 +29,7 @@ function showMain(){
 /*
  * Creates a new question/post & send it to the server, before triggering an update for the main part of the page.
  */
-function createPost(){
+function createPost() {
 
     search = null;
 
@@ -44,7 +44,7 @@ function createPost(){
     var xmlhttp = new XMLHttpRequest();
 
     // Define function to run on response
-    xmlhttp.onreadystatechange = function() {
+    xmlhttp.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
             // Update the page on success
             loadPosts();
@@ -63,7 +63,7 @@ function createPost(){
 /*
  * Updates the search term then reloads the posts shown
  */
-function searchPosts(){
+function searchPosts() {
 
     search = document.getElementById('post-search').value.toUpperCase();
     updatePosts();
@@ -82,22 +82,22 @@ function updatePosts() {
     document.getElementById('post-list').innerHTML = '';
 
     // Iterate over each post in the array by index
-    for(let i=0; i<posts.length; i++){
+    for (let i = 0; i < posts.length; i++) {
 
         let post = posts[i];
 
         // Check if a search term used.
-        if(search !== null){
+        if (search !== null) {
             // If so, skip this question/post if title or content doesn't match
             if (post.title.toUpperCase().indexOf(search) < 0 &&
-                post.content.toUpperCase().indexOf(search) < 0 ) {
+                post.content.toUpperCase().indexOf(search) < 0) {
                 continue;
             }
         }
 
         // Generate a set of spans for each of the tags
         let tagSpans = '';
-        for(let tag of post.tags){
+        for (let tag of post.tags) {
             tagSpans = tagSpans + `<span class="tag">${tag}</span>`;
         }
 
@@ -139,7 +139,7 @@ function loadPosts() {
     var xmlhttp = new XMLHttpRequest();
 
     // Define function to run on response
-    xmlhttp.onreadystatechange = function() {
+    xmlhttp.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
             // Parse the JSON and update the posts array
             posts = JSON.parse(this.responseText);
@@ -161,7 +161,7 @@ function loadPosts() {
  * Increase the votes for a given post, then update the page
  */
 function upvote(index) {
-    posts[index].upvotes ++;
+    posts[index].upvotes++;
     updatePosts();
 }
 
@@ -169,12 +169,12 @@ function upvote(index) {
  * Decrease the votes for a given post, then update the page
  */
 function downvote(index) {
-    posts[index].upvotes --;
+    posts[index].upvotes--;
     updatePosts();
 }
 
 
-function login(){
+function login() {
 
     let user = {
         user: document.getElementById('username').value,
@@ -185,9 +185,9 @@ function login(){
     var xmlhttp = new XMLHttpRequest();
 
     // Define function to run on response
-    xmlhttp.onreadystatechange = function() {
+    xmlhttp.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
-            alert("Welcome "+this.responseText);
+            alert("Welcome " + this.responseText);
         } else if (this.readyState == 4 && this.status >= 400) {
             alert("Login failed");
         }
@@ -201,7 +201,7 @@ function login(){
 
 }
 
-function logout(){
+function logout() {
 
     // Create AJAX Request
     var xmlhttp = new XMLHttpRequest();
@@ -210,4 +210,98 @@ function logout(){
     xmlhttp.open("POST", "/users/logout", true);
     xmlhttp.send();
 
+}
+
+// 新增：登录表单提交事件
+// 页面加载后绑定登录表单事件
+
+document.addEventListener('DOMContentLoaded', function () {
+    const loginForm = document.getElementById('loginForm');
+    if (loginForm) {
+        loginForm.addEventListener('submit', async function (e) {
+            e.preventDefault();
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            // 发送登录请求
+            const res = await fetch('/api/users/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ username, password })
+            });
+
+            const data = await res.json();
+            if (res.ok) {
+                // 根据角色跳转
+                if (data.role === 'owner') {
+                    window.location.href = 'owner-dashboard.html';
+                } else if (data.role === 'walker') {
+                    window.location.href = 'walker-dashboard.html';
+                }
+            } else {
+                alert(data.error || '登录失败');
+            }
+        });
+    }
+});
+
+// 新增：注销按钮事件
+// 绑定 owner/walker dashboard 的注销按钮
+
+document.addEventListener('DOMContentLoaded', function () {
+    const logoutBtn = document.getElementById('logoutBtn');
+    if (logoutBtn) {
+        logoutBtn.addEventListener('click', async function () {
+            // 调用后端注销接口
+            await fetch('/api/users/logout', { method: 'POST' });
+            document.cookie.split(';').forEach(function (c) {
+                document.cookie = c.replace(/^ +/, '').replace(/=.*/, '=;expires=' + new Date().toUTCString() + ';path=/');
+            });
+            // 跳转回登录页
+            window.location.href = 'index.html';
+        });
+    }
+});
+
+/**
+ * 异步获取当前登录用户信息
+ * 调用 /api/users/me，返回用户对象（包含 user_id、username、role 等）
+ */
+async function getCurrentUser() {
+    const res = await fetch('/api/users/me');
+    if (res.ok) {
+        return await res.json();
+    } else {
+        return null;
+    }
+}
+
+/**
+ * 申请遛狗任务
+ * @param {number} walkId - 要申请的遛狗任务ID
+ */
+async function applyToWalk(walkId) {
+    // 通过 getCurrentUser 获取当前登录用户信息
+    const user = await getCurrentUser();
+    if (!user) {
+        alert('请先登录');
+        window.location.href = 'index.html';
+        return;
+    }
+    const walkerId = user.user_id; // 动态获取当前用户ID
+
+    // 发送申请请求到后端
+    const res = await fetch('/api/walks/apply', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ walkId, walkerId })
+    });
+
+    if (res.ok) {
+        alert('申请成功！');
+        // 可根据需要刷新页面或更新任务列表
+    } else {
+        const data = await res.json();
+        alert(data.error || '申请失败');
+    }
 }
