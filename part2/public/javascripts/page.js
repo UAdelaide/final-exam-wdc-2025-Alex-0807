@@ -250,8 +250,9 @@ document.addEventListener('DOMContentLoaded', function () {
 // 绑定 owner/walker dashboard 的注销按钮
 
 document.addEventListener('DOMContentLoaded', function () {
-    console.log('[logout] script loaded — btn =', btn);
+
     const logoutBtn = document.getElementById('logoutBtn');
+    console.log('[logout] script loaded — btn =', logoutBtn);
     if (logoutBtn) {
         logoutBtn.addEventListener('click', async function () {
             // 调用后端注销接口
