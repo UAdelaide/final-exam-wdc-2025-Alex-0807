@@ -17,6 +17,7 @@ let db;
 // 数据库初始化
 async function setupDatabase() {
   db = await mysql.createConnection(dbConfig);
+  await db.execute(`CREATE DATABASE IF NOT EXISTS dogwalks`);
 
   // 创建表
   await db.execute(`DROP TABLE IF EXISTS ratings`);
