@@ -13,7 +13,7 @@ app.use(session({
   secret: 'dogwalk_secret',
   resave: false,
   saveUninitialized: true,
-  cookie: { secure: false } // 本地开发用 false，生产环境用 true
+  cookie: { secure: false }
 }));
 // Routes
 const walkRoutes = require('./routes/walkRoutes');
