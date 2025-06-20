@@ -40,7 +40,7 @@ router.get('/me', (req, res) => {
 // POST login (dummy version)
 router.post('/login', async (req, res) => {
   const { username, password } = req.body; //
-
+  
   try {
     const [rows] = await db.query(`
       SELECT user_id, username, role FROM users
@@ -72,4 +72,4 @@ router.post('/logout', (req, res) => {
   });
 });
 
-module.exports = router;  
+module.exports = router;
