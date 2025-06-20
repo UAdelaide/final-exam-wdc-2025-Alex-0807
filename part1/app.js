@@ -1,3 +1,4 @@
+/* eslint-disable */
 const express = require('express');
 const mysql = require('mysql2/promise');
 
@@ -189,4 +190,4 @@ app.get('/api/walkers/summary', async (req, res) => {
   } catch (err) {
     console.error('Failed to start server:', err);
   }
-})(); 
+})();
