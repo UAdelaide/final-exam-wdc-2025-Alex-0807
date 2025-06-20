@@ -222,7 +222,8 @@ document.addEventListener('DOMContentLoaded', function () {
             e.preventDefault();
             const username = document.getElementById('username').value;
             const password = document.getElementById('password').value;
-
+            console.log();
+            
             // 发送登录请求
             const res = await fetch('/api/users/login', {
                 method: 'POST',
