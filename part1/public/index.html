@@ -33,14 +33,14 @@
 <body>
   <div id="app">
     <!-- kinematic load distraction  -->
-    <marquee behavior="alternate" scrollamount="10">✨ Welcome to DOG OF THE DAY ✨ — {{ now }}</marquee>
+    <marquee behavior="alternate" scrollamount="10"> Welcome to DOG OF THE DAY — {{ now }}</marquee>
 
     <h1 @dblclick="showAlert"> Dog of the Day</h1> <!-- double click to trigger, distraction -->
 
     <!-- there is no text , no accessibility -->
     <div class="card">
       <img :src="dogPic" width="400" height="400">
-      <p><strong>Name:</strong> Sir Barks-a-lot the Third of Barkingtonshire</p>
+      <p><strong>Name:</strong> Alex</p>
       <p><strong>Bio:</strong> {{ longBio }}</p>
       <!-- many click to refresh -->
       <button class="tiny-btn" @click="clickCount++" v-if="clickCount < 3">
