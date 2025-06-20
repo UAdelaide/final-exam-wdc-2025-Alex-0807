@@ -18,6 +18,7 @@ let db;
 async function setupDatabase() {
   db = await mysql.createConnection(dbConfig);
   await db.execute(`CREATE DATABASE IF NOT EXISTS dogwalks`);
+  await db.changeUser({ database: 'dogwalks' });
 
   // 创建表
   await db.execute(`DROP TABLE IF EXISTS ratings`);
