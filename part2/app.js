@@ -9,7 +9,12 @@ const app = express();
 // Middleware
 app.use(express.json());
 app.use(express.static(path.join(__dirname, '/public')));
-
+app.use(session({
+  secret: 'dogwalk_secret',
+  resave: false,
+  saveUninitialized: true,
+  cookie: { secure: false } // 本地开发用 false，生产环境用 true
+}));
 // Routes
 const walkRoutes = require('./routes/walkRoutes');
 const userRoutes = require('./routes/userRoutes');
