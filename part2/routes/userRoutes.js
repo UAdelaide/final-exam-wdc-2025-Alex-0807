@@ -39,22 +39,37 @@ router.get('/me', (req, res) => {
 
 // POST login (dummy version)
 router.post('/login', async (req, res) => {
-  const { email, password } = req.body;
+  const { username, password } = req.body; //
 
   try {
     const [rows] = await db.query(`
       SELECT user_id, username, role FROM users
-      WHERE email = ? AND password_hash = ?
-    `, [email, password]);
+      WHERE username = ? AND password_hash = ?
+    `, [username, password]);
 
     if (rows.length === 0) {
       return res.status(401).json({ error: 'Invalid credentials' });
     }
 
-    res.json({ message: 'Login successful', user: rows[0] });
+    // 登录成功，将用户信息存入 session
+    req.session.user = rows[0];
+
+    // 返回角色，前端可据此跳转
+    res.json({ message: 'log in successful', role: rows[0].role });
   } catch (error) {
     res.status(500).json({ error: 'Login failed' });
   }
 });
 
-module.exports = router;
+// 新增：注销接口
+router.post('/logout', (req, res) => {
+  req.session.destroy(err => {
+    if (err) {
+      return res.status(500).json({ error: '注销失败' });
+    }
+    res.clearCookie('connect.sid');
+    res.json({ message: '注销成功' });
+  });
+});
+
+module.exports = router;  
