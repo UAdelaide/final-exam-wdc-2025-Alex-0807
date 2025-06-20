@@ -254,6 +254,8 @@ document.addEventListener('DOMContentLoaded', function () {
     if (logoutBtn) {
         logoutBtn.addEventListener('click', async function () {
             // 调用后端注销接口
+            console.log('log out clicked');
+
             await fetch('/api/users/logout', { method: 'POST' });
             document.cookie.split(';').forEach(function (c) {
                 document.cookie = c.replace(/^ +/, '').replace(/=.*/, '=;expires=' + new Date().toUTCString() + ';path=/');
