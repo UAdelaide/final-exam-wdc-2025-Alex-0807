@@ -9,7 +9,6 @@ const port = 8080;
 const dbConfig = {
   host: 'localhost',
   user: 'root',      // MySQL用户名
-  password: '060822',// MySQL密码
   database: 'dogwalks'
 };
 
