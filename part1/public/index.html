@@ -36,9 +36,9 @@
     <!-- kinematic load distraction  -->
     <marquee behavior="alternate" scrollamount="10">✨ Welcome to DOG OF THE DAY ✨ — {{ now }}</marquee>
 
-    <h1 @dblclick="showAlert"> Dog of the Day</h1> <!-- double click  -->
+    <h1 @dblclick="showAlert"> Dog of the Day</h1> <!-- double click to trigger, distraction -->
 
-    <!-- 图片没有 alt 文本；视觉障碍者读不到 -->
+    <!-- there is no text ,  -->
     <div class="card">
       <img :src="dogPic" width="400" height="400">
       <p><strong>Name:</strong> Sir Barks-a-lot the Third of Barkingtonshire 🧐</p>
