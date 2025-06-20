@@ -60,13 +60,13 @@ createApp({
   data() {
     return {
       dogPic: '',
-      longBio: 'Born under a full moon 🌕, Sir Barks-a-lot mastered 27 languages, ' +
+      longBio: 'Born under a full moon , Sir Barks-a-lot mastered 27 languages, ' +
                'won 12 Nobel prizes, starred in 38 movies, and loves quantum physics. ' +
                'He can fetch a ball from another dimension. (Repeat x3) ' +
-               'Born under a full moon 🌕, Sir Barks-a-lot mastered 27 languages, ' +
+               'Born under a full moon , Sir Barks-a-lot mastered 27 languages, ' +
                'won 12 Nobel prizes, starred in 38 movies, and loves quantum physics. ' +
                'He can fetch a ball from another dimension. (Repeat x3) ' +
-               'Born under a full moon 🌕, Sir Barks-a-lot mastered 27 languages, ' +
+               'Born under a full moon , Sir Barks-a-lot mastered 27 languages, ' +
                'won 12 Nobel prizes, starred in 38 movies, and loves quantum physics. ' +
                'He can fetch a ball from another dimension. (Repeat x3)',
       clickCount: 0,
@@ -75,7 +75,7 @@ createApp({
   },
   mounted() {
     this.getDog();
-    // 每秒更新时间，造成持续视觉干扰
+    // kinematic load: update time every second
     setInterval(() => { this.now = new Date().toLocaleTimeString(); }, 1000);
   },
   methods: {
