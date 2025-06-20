@@ -1,5 +1,5 @@
 /* eslint-disable */
-app.use(express.static('public'));
+
 const express = require('express');
 
 const mysql = require('mysql2/promise');
@@ -19,6 +19,7 @@ const pool = mysql.createPool({
 });
 
 // --- 中间件 ---
+app.use(express.static('public'));
 app.use(express.json());
 
 // --- 数据库初始化函数 ---
