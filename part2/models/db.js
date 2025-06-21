@@ -7,9 +7,9 @@ const pool = mysql.createPool({
   user: 'root',
   password: '',
   database: 'dogwalks',
-  waitForConnections: true,
-  connectionLimit: 10,
-  queueLimit: 0
+  // waitForConnections: true,
+  // connectionLimit: 10,
+  // queueLimit: 0
 });
 
 module.exports = pool;
