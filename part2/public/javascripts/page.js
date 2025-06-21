@@ -290,14 +290,14 @@ async function getCurrentUser() {
  */
 async function applyToWalk(walkId) {
     // get current user
-    console.log('applyToWalk called with walkId:', walkId);
+    console.log('applyToWalk called ');
     const user = await getCurrentUser();
     if (!user) {
-        alert('请先登录');
+        alert('please log in first');
         window.location.href = 'index.html';
         return;
     }
-    const walkerId = user.user_id; // 动态获取当前用户ID
+    const walkerId = user.user_id; // get walker ID from user object
 
     // 发送申请请求到后端
     const res = await fetch('/api/walks/apply', {
