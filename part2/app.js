@@ -8,19 +8,15 @@ const session = require('express-session');
 const app = express();
 
 // Middleware
-app.use((req, res, next) => {
-  console.log('[DEBUG]', req.method, req.path);
-  next();
-});
 app.use(express.json());
 app.use(express.static(path.join(__dirname, '/public')));
 
-// 新增：配置 session
+
 app.use(session({
-  secret: 'dogwalk_secret', // 建议用更安全的密钥
+  secret: 'dogwalk_secret', 
   resave: false,
   saveUninitialized: true,
-  cookie: { secure: false } // 本地开发用 false，生产环境用 true
+  cookie: { secure: false } 
 }));
 
 // Routes
