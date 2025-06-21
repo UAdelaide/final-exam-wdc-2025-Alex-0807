@@ -7,12 +7,9 @@ const port = 8080;
 // 数据库连接配置
 const dbConfig = {
   host: 'localhost',
-  user: 'root',
-  password: 'jlccXHY0807',
-  database: 'dogwalks',
-  waitForConnections: true,
-  connectionLimit: 10,
-  queueLimit: 0
+  user: 'root',      // MySQL用户名
+  password: '0615',
+  database: 'dogwalks'
 };
 
 let db;
@@ -50,6 +47,7 @@ async function setupDatabase() {
       name VARCHAR(255) NOT NULL,
       size VARCHAR(50),
       owner_id INT NOT NULL,
+      photo_url VARCHAR(2048),
       FOREIGN KEY (owner_id) REFERENCES users(user_id)
     )
   `);
@@ -92,10 +90,10 @@ async function setupDatabase() {
   `);
 
   await db.execute(`
-    INSERT INTO dogs (name, size, owner_id) VALUES
-    ('Max', 'medium', (SELECT user_id FROM users WHERE username = 'alice123')),
-    ('Bella', 'small', (SELECT user_id FROM users WHERE username = 'carol123')),
-    ('Rocky', 'small', (SELECT user_id FROM users WHERE username = 'alice123'))
+    INSERT INTO dogs (name, size, owner_id, photo_url) VALUES
+    ('Max', 'medium', (SELECT user_id FROM users WHERE username = 'alice123'), 'https://images.dog.ceo/breeds/beagle/n02088364_11137.jpg'),
+    ('Bella', 'small', (SELECT user_id FROM users WHERE username = 'carol123'), 'https://images.dog.ceo/breeds/chihuahua/n02085620_3226.jpg'),
+    ('Rocky', 'small', (SELECT user_id FROM users WHERE username = 'alice123'), 'https://images.dog.ceo/breeds/boxer/n02108089_11106.jpg')
   `);
 
   await db.execute(`
@@ -200,4 +198,4 @@ app.get('/api/walkers/summary', async (req, res) => {
   } catch (err) {
     console.error('Failed to start server:', err);
   }
-})();
+})(); 

@@ -9,93 +9,131 @@
 </head>
 <body class="bg-light">
 
-  <div id="app" class="container py-5">
-    <h1 class="mb-4 text-primary">{{ message }}</h1>
-    <p class="lead">Connect with trusted walkers for your beloved dog!</p>
-    <!-- <a href="owner-dashboard.html" class="btn btn-outline-primary me-2">Owner Dashboard</a> -->
-    <!-- <a href="walker-dashboard.html" class="btn btn-outline-success">Walker Dashboard</a> -->
-    <!-- 新写的表单登录页面 -->
-    <form id="loginForm" class="mb-3">
-      <div class="mb-3">
-        <label for="username" class="form-label">Username</label>
-        <input type="text" class="form-control" id="username" required>
+  <div id="app" class="container py-4">
+    <h1 class="text-center mb-4 text-primary">Walking Service!</h1>
+
+    <div class="row justify-content-center">
+      <div class="col-md-6">
+        <div class="card">
+          <div class="card-body">
+            <form @submit.prevent="login">
+              <div class="mb-3">
+                <label class="form-label">Username</label>
+                <input v-model="form.username" type="text" class="form-control" placeholder="Enter username" required>
+              </div>
+              <div class="mb-3">
+                <label class="form-label">Password</label>
+                <input v-model="form.password" type="password" class="form-control" placeholder="Password" required>
+              </div>
+              <div class="d-grid">
+                <button type="submit" class="btn btn-primary">Log In</button>
+              </div>
+            </form>
+          </div>
+        </div>
       </div>
-      <div class="mb-3">
-        <label for="password" class="form-label">Password</label>
-        <input type="password" class="form-control" id="password" required>
-      </div>
-      <button type="submit" class="btn btn-primary">Log In</button>
-    </form>
+    </div>
+    
+    <div v-if="loginError" class="alert alert-danger mt-3">{{ loginError }}</div>
+
+    <hr class="my-5">
+
+    <h2 class="text-center mb-4">All Registered Dogs</h2>
+    <div v-if="dogsError" class="alert alert-warning">{{ dogsError }}</div>
+    <div v-if="dogs.length > 0" class="table-responsive">
+      <table class="table table-striped table-hover align-middle">
+        <thead class="table-dark">
+          <tr>
+            <th>Dog ID</th>
+            <th>Name</th>
+            <th>Size</th>
+            <th>Owner ID</th>
+            <th>Photo</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="dog in dogs" :key="dog.dog_id">
+            <td>{{ dog.dog_id }}</td>
+            <td>{{ dog.name }}</td>
+            <td>{{ dog.size }}</td>
+            <td>{{ dog.owner_id }}</td>
+            <td>
+              <img :src="dog.photo_url" :alt="dog.name" class="img-thumbnail" style="width: 100px; height: 100px; object-fit: cover;">
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p v-else class="text-center">No dogs registered yet.</p>
+
   </div>
 
-  <h2 class="mt-5">All Registered Dogs</h2>
-  <table class="table table-bordered" id="dogsTable">
-    <thead>
-      <tr>
-        <th>Dog ID</th>
-        <th>Name</th>
-        <th>Size</th>
-        <th>Owner</th>
-        <th>Photo</th>
-      </tr>
-    </thead>
-    <tbody>
-      <!-- JS 动态填充 -->
-    </tbody>
-  </table>
-
   <script>
-    const { createApp } = Vue;
+    const { createApp, ref, onMounted } = Vue;
+
     createApp({
-      data() {
+      setup() {
+        const form = ref({ username: '', password: '' });
+        const loginError = ref('');
+        const dogs = ref([]);
+        const dogsError = ref('');
+
+        async function login() {
+          try {
+            const res = await fetch('/api/users/login', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(form.value)
+            });
+            const result = await res.json();
+            if (!res.ok) {
+              throw new Error(result.error);
+            }
+            if (result.role === 'owner') {
+              window.location.href = '/public/owner-dashboard.html';
+            } else if (result.role === 'walker') {
+              window.location.href = '/public/walker-dashboard.html';
+            }
+          } catch (err) {
+            loginError.value = err.message;
+          }
+        }
+
+        async function loadAllDogs() {
+          try {
+            const res = await fetch('/api/users/dogs');
+            const data = await res.json();
+
+            if (!res.ok) {
+              throw new Error(data.error || `Failed to fetch dog list. Server responded with status ${res.status}.`);
+            }
+            
+            dogs.value = data;
+            if (dogs.value.length === 0) {
+              dogsError.value = 'The dog list is empty. Please make sure you have run the database initialization script to add sample data.';
+            }
+          } catch (err) {
+            console.error(err);
+            dogsError.value = err.message;
+          }
+        }
+
+        onMounted(() => {
+          loadAllDogs();
+        });
+
         return {
-          message: 'Welcome to the Dog Walking Service!'
+          form,
+          login,
+          loginError,
+          dogs,
+          dogsError
         };
       }
     }).mount('#app');
-
-    // 随机狗狗图片数组
-    const dogImages = [
-      "https://images.dog.ceo/breeds/terrier-norwich/n02094258_3180.jpg",
-      "https://images.dog.ceo/breeds/terrier-yorkshire/n02094433_3340.jpg",
-      "https://images.dog.ceo/breeds/terrier-norwich/n02094258_3180.jpg",
-      "https://images.dog.ceo/breeds/terrier-irish/n02093991_3772.jpg",
-      "https://images.dog.ceo/breeds/terrier-norwich/n02094258_3180.jpg"
-    ];
-
-    // 加载所有狗并渲染表格
-    async function loadDogsTable() {
-      try {
-        // 这里假设api-part1服务跑在8080端口
-        const res = await fetch('http://localhost:8080/api/dogs');
-        const dogs = await res.json();
-        const tbody = document.querySelector('#dogsTable tbody');
-        tbody.innerHTML = '';
-        dogs.forEach((dog, idx) => {
-          const tr = document.createElement('tr');
-          tr.innerHTML = `
-            <td>${idx + 1}</td>
-            <td>${dog.dog_name}</td>
-            <td>${dog.size}</td>
-            <td>${dog.owner_username}</td>
-            <td><img src="${dogImages[Math.floor(Math.random() * dogImages.length)]}" style="width:80px;height:80px;object-fit:cover;"></td>
-          `;
-          tbody.appendChild(tr);
-        });
-      } catch (err) {
-        // 可选：显示错误信息
-      }
-    }
-
-    // 页面加载后自动加载狗狗表格
-    document.addEventListener('DOMContentLoaded', function() {
-      if (document.querySelector('#dogsTable')) {
-        loadDogsTable();
-      }
-    });
   </script>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-  <script src="javascripts/page.js"></script>
+
 </body>
 </html>

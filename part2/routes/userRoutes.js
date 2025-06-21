@@ -87,4 +87,15 @@ router.get('/my-dogs', async (req, res) => {
   }
 });
 
+// GET all dogs for the main page
+router.get('/dogs', async (req, res) => {
+  try {
+    const [rows] = await db.query('SELECT dog_id, name, size, owner_id, photo_url FROM dogs');
+    res.json(rows);
+  } catch (error) {
+    console.error('Error fetching all dogs:', error);
+    res.status(500).json({ error: `Database error while fetching dogs: ${error.message}` });
+  }
+});
+
 module.exports = router;
