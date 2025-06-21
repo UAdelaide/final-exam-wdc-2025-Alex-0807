@@ -177,7 +177,7 @@ app.get('/api/walkers/summary', async (req, res) => {
       WHERE u.role = 'walker'
     `);
 
-    // 处理平均分为数字类型
+    // set average_rating to null if it is null in the database
     const summary = rows.map(row => ({
       ...row,
       average_rating: row.average_rating !== null ? Number(row.average_rating) : null
@@ -190,7 +190,7 @@ app.get('/api/walkers/summary', async (req, res) => {
   }
 });
 
-// 启动服务器
+// start the server
 (async () => {
   try {
     await setupDatabase();
