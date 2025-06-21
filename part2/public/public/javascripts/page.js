@@ -277,7 +277,7 @@ async function getCurrentUser() {
 
 /**
  * 申请遛狗任务
- * @param {number} walkId 
+ * @param {number} walkId
  */
 async function applyToWalk(walkId) {
   const user = await getCurrentUser();
@@ -347,7 +347,7 @@ async function loadWalks() {
   try {
     const res = await fetch('/api/walks');
     const allWalks = await res.json();
-    // 只显示未被申请的walk
+    // only walk not applied
     if (typeof walks !== 'undefined') {
       walks.value = allWalks.filter(walk => walk.status === 'open');
     }
