@@ -68,14 +68,14 @@ router.post('/logout', (req, res) => {
       return res.status(500).json({ error: 'failed to logout' });
     }
     res.clearCookie('connect.sid');
-    res.json({ message: 'log' });
+    res.json({ message: 'logout successfully' });
   });
 });
 
-// 获取当前登录用户的所有狗
+// get all the dogs owned by the current user
 router.get('/my-dogs', async (req, res) => {
   if (!req.session.user) {
-    return res.status(401).json({ error: '未登录' });
+    return res.status(401).json({ error: 'not log' });
   }
   const ownerId = req.session.user.user_id;
   try {
