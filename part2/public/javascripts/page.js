@@ -274,7 +274,7 @@ document.addEventListener('DOMContentLoaded', function () {
  * 异步获取当前登录用户信息
  * 调用 /api/users/me，返回用户对象（包含 user_id、username、role 等）
  */
-//return object user_id, username, role
+//return object with user_id, username, role
 async function getCurrentUser() {
     const res = await fetch('/api/users/me');
     if (res.ok) {
