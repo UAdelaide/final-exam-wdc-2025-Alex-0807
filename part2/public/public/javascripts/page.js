@@ -277,7 +277,7 @@ async function getCurrentUser() {
 
 /**
  * 申请遛狗任务
- * @param {number} walkId 
+ * @param {number} walkId
  */
 async function applyToWalk(walkId) {
   const user = await getCurrentUser();
@@ -300,7 +300,7 @@ async function applyToWalk(walkId) {
   }
 }
 
-// 获取当前用户的所有狗并填充下拉框
+// get all dogs for the current user
 async function loadMyDogs() {
   const res = await fetch('/api/users/my-dogs');
   if (res.ok) {
