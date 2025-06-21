@@ -8,7 +8,7 @@ const port = 8080;
 const dbConfig = {
   host: 'localhost',
   user: 'root',
-  // password: 'jlccXHY0807!',
+  password: '',
   // database: 'dogwalks',
   // waitForConnections: true,
   // connectionLimit: 10,
