@@ -321,7 +321,7 @@ async function loadMyDogs() {
 // 页面加载时填充狗狗下拉框，并绑定表单提交事件
 
 document.addEventListener('DOMContentLoaded', function() {
-  // fill the 
+  // fill the dog select dropdown
   if (document.getElementById('dogSelect')) {
     loadMyDogs();
   }
