@@ -248,8 +248,8 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 });
 
-// 新增：注销按钮事件
-// 绑定 owner/walker dashboard 的注销按钮
+// logout
+// owner/walker dashboard
 
 document.addEventListener('DOMContentLoaded', function () {
 
@@ -272,7 +272,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 /**
  * get user information of current logged in user
- * 调用 /api/users/me，return object user_id、username、role
+ *  /api/users/me，return object user_id、username、role
  */
 //return object with user_id, username, role
 async function getCurrentUser() {
