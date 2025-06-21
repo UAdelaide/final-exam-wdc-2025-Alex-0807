@@ -264,7 +264,7 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 /**
- * 异步获取当前登录用户信息
+ *
  */
 async function getCurrentUser() {
   const res = await fetch('/api/users/me');
@@ -276,7 +276,7 @@ async function getCurrentUser() {
 }
 
 /**
- * 申请遛狗任务
+ * apply
  * @param {number} walkId
  */
 async function applyToWalk(walkId) {
@@ -292,7 +292,7 @@ async function applyToWalk(walkId) {
     body: JSON.stringify({ walker_id: walkerId })
   });
   if (res.ok) {
-    await loadWalks(); // 刷新walk列表，让已申请的walk消失
+    await loadWalks(); // refresh the list of walks
     showMessage && showMessage('Application submitted');
   } else {
     const data = await res.json();
@@ -300,7 +300,7 @@ async function applyToWalk(walkId) {
   }
 }
 
-// 获取当前用户的所有狗并填充下拉框
+// get current user's dogs
 async function loadMyDogs() {
   const res = await fetch('/api/users/my-dogs');
   if (res.ok) {
