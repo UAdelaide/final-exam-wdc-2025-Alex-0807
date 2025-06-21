@@ -4,7 +4,7 @@ const mysql = require('mysql2/promise');
 const app = express();
 const port = 8080;
 
-// 数据库连接配置
+// database configuration
 const dbConfig = {
   host: 'localhost',
   user: 'root',      // MySQL user name
@@ -15,7 +15,7 @@ console.log('DB CONFIG IN USE ->', dbConfig);
 
 let db;
 
-// init
+// init database
 async function setupDatabase() {
   // Connect to MySQL server without selecting a database to create it if it doesn't exist
   const { database, ...rootConfig } = dbConfig;
@@ -114,7 +114,7 @@ async function setupDatabase() {
   console.log('finish setting up database');
 }
 
-// API端点
+// API
 
 // 1. /api/dogs
 app.get('/api/dogs', async (req, res) => {
