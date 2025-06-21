@@ -8,8 +8,9 @@ const port = 8080;
 const dbConfig = {
   host: 'localhost',
   user: 'root',
-  password: ''
-  // database: 'dogwalks'
+  password: 'jlccXHY0807!',
+  database: 'dogwalks',
+
 };
 
 let db;
