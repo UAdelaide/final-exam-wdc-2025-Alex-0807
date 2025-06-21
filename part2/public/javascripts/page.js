@@ -308,7 +308,6 @@ async function applyToWalk(walkId) {
 
     if (res.ok) {
         alert('Success to apply！');
-        // 可根据需要刷新页面或更新任务列表
     } else {
         const data = await res.json();
         alert(data.error || 'failed to apply');
