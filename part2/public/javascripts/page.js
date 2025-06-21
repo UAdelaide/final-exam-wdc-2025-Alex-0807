@@ -260,6 +260,7 @@ document.addEventListener('DOMContentLoaded', function () {
             //calling logout API
             console.log('log out clicked');
             await fetch('/api/users/logout', { method: 'POST' });
+            //delete cookies
             document.cookie.split(';').forEach(function (c) {
                 document.cookie = c.replace(/^ +/, '').replace(/=.*/, '=;expires=' + new Date().toUTCString() + ';path=/');
             });
