@@ -232,32 +232,31 @@ document.addEventListener('DOMContentLoaded', function() {
 
       const data = await res.json();
       if (res.ok) {
-        // 根据角色跳转
+
         if (data.role === 'owner') {
           window.location.href = 'owner-dashboard.html';
         } else if (data.role === 'walker') {
           window.location.href = 'walker-dashboard.html';
         }
       } else {
-        alert(data.error || '登录失败');
+        alert(data.error || 'failed to login');
       }
     });
   }
 });
 
-// 新增：注销按钮事件
-// 绑定 owner/walker dashboard 的注销按钮
+
 
 document.addEventListener('DOMContentLoaded', function() {
   const logoutBtn = document.getElementById('logoutBtn');
   if (logoutBtn) {
     logoutBtn.addEventListener('click', async function() {
-      // 调用后端注销接口
+      //
       await fetch('/api/users/logout', { method: 'POST' });
       document.cookie.split(';').forEach(function(c) {
         document.cookie = c.replace(/^ +/, '').replace(/=.*/, '=;expires=' + new Date().toUTCString() + ';path=/');
       });
-      // 跳转回登录页
+      //
       window.location.href = 'index.html';
     });
   }
