@@ -277,7 +277,7 @@ async function getCurrentUser() {
 
 /**
  * 申请遛狗任务
- * @param {number} walkId
+ * @param {number} walkId 
  */
 async function applyToWalk(walkId) {
   const user = await getCurrentUser();
@@ -300,7 +300,7 @@ async function applyToWalk(walkId) {
   }
 }
 
-// get all dogs for the current user
+// 获取当前用户的所有狗并填充下拉框
 async function loadMyDogs() {
   const res = await fetch('/api/users/my-dogs');
   if (res.ok) {
@@ -318,15 +318,15 @@ async function loadMyDogs() {
   }
 }
 
-
+// 页面加载时填充狗狗下拉框，并绑定表单提交事件
 
 document.addEventListener('DOMContentLoaded', function() {
-  // fill  info
+  // 填充狗狗下拉框
   if (document.getElementById('dogSelect')) {
     loadMyDogs();
   }
 
-  // submit walk request form
+  // 绑定表单提交
   const walkForm = document.getElementById('walkRequestForm');
   if (walkForm) {
     walkForm.addEventListener('submit', async function(e) {
@@ -336,18 +336,18 @@ document.addEventListener('DOMContentLoaded', function() {
         alert('please choose a dog');
         return;
       }
-
+      // 这里假设 walkId 就是 dogId，或根据实际业务调整
       await applyToWalk(Number(dogId));
     });
   }
 });
 
-// load walk request
+// 加载walk请求（只显示 status 为 'open' 的 walk）
 async function loadWalks() {
   try {
     const res = await fetch('/api/walks');
     const allWalks = await res.json();
-    // only unapplied walks
+    // 只显示未被申请的walk
     if (typeof walks !== 'undefined') {
       walks.value = allWalks.filter(walk => walk.status === 'open');
     }

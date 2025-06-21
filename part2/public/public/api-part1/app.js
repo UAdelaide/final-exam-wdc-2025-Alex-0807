@@ -8,7 +8,7 @@ const port = 8080;
 const dbConfig = {
   host: 'localhost',
   user: 'root',      // MySQL用户名
-  password: '060822',// MySQL密码
+  password: '0615',
   database: 'dogwalks'
 };
 
@@ -16,6 +16,13 @@ let db;
 
 // 数据库初始化
 async function setupDatabase() {
+  // Connect to MySQL server without selecting a database to create it if it doesn't exist
+  const { database, ...rootConfig } = dbConfig;
+  const tempConnection = await mysql.createConnection(rootConfig);
+  await tempConnection.query(`CREATE DATABASE IF NOT EXISTS \`${database}\``);
+  await tempConnection.end();
+
+  // Now connect to the newly created database
   db = await mysql.createConnection(dbConfig);
 
   // 创建表

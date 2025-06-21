@@ -12,7 +12,7 @@ router.get('/', async (req, res) => {
       FROM walk_requests wr
       JOIN dogs d ON wr.dog_id = d.dog_id
       JOIN users u ON d.owner_id = u.user_id
-      WHERE wr.status = 'open'
+      WHERE wr.status IN ('open', 'completed')
     `);
     res.json(rows);
   } catch (error) {
@@ -27,23 +27,24 @@ router.post('/', async (req, res) => {
 
   try {
     const [result] = await db.query(`
-      INSERT INTO walk_requests (dog_id, requested_time, duration_minutes, location, status)
+      INSERT INTO walk_requests (dog_id, request_time, duration_minutes, location, status)
       VALUES (?, ?, ?, ?, 'open')
     `, [dog_id, requested_time, duration_minutes, location]);
 
     res.status(201).json({ message: 'Walk request created', request_id: result.insertId });
   } catch (error) {
-    res.status(500).json({ error: 'Failed to create walk request' });
+    console.error('SQL Error creating walk request:', error);
+    res.status(500).json({ error: `Failed to create walk request: ${error.message}` });
   }
 });
 
 // POST an application to walk a dog (from walker)
 router.post('/:id/apply', async (req, res) => {
   const requestId = req.params.id;
-  const walkerId = req.session.user ? req.session.user.user_id : req.body.walker_id;
+  const walkerId = req.session.user ? req.session.user.user_id : null;
 
   if (!walkerId) {
-    return res.status(401).json({ error: 'User not logged in' });
+    return res.status(401).json({ error: 'User not logged in or not a walker' });
   }
 
   try {
@@ -60,7 +61,7 @@ router.post('/:id/apply', async (req, res) => {
     res.status(200).json({ message: 'Application submitted and approved' });
   } catch (error) {
     console.error('SQL Error:', error);
-    res.status(500).json({ error: 'Failed to apply for walk' });
+    res.status(500).json({ error: `Failed to apply for walk: ${error.message}` });
   }
 });
 
@@ -74,18 +75,18 @@ router.get('/my-requests', async (req, res) => {
   const ownerId = req.session.user.user_id;
 
   try {
-    // 从数据库查询只属于这个主人的所有 walk 请求
+    // 恢复成正式代码
     const [rows] = await db.query(`
       SELECT wr.*, d.name AS dog_name, d.size
       FROM walk_requests wr
       JOIN dogs d ON wr.dog_id = d.dog_id
       WHERE d.owner_id = ?
-      ORDER BY wr.requested_time DESC
+      ORDER BY wr.request_time DESC
     `, [ownerId]);
     res.json(rows);
   } catch (error) {
     console.error('SQL Error fetching owner walks:', error);
-    res.status(500).json({ error: 'Failed to fetch your walk requests' });
+    res.status(500).json({ error: `Failed to fetch your walk requests: ${error.message}` });
   }
 });
 

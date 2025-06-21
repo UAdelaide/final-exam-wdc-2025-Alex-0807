@@ -25,9 +25,11 @@
               <strong>Date:</strong> {{ new Date(walk.requested_time).toLocaleString() }}<br>
               <strong>Duration:</strong> {{ walk.duration_minutes }} minutes<br>
               <strong>Location:</strong> {{ walk.location }}<br>
-              <strong>Owner:</strong> {{ walk.owner_name }}
+              <strong>Owner:</strong> {{ walk.owner_name }}<br>
+              <strong>Status:</strong> <span :class="{'text-success': walk.status === 'open', 'text-secondary': walk.status !== 'open'}">{{ walk.status }}</span>
             </p>
-            <button type=button class="btn btn-outline-success" @click="applyToWalk(walk.request_id)">Apply</button>
+            <button v-if="walk.status === 'open'" type="button" class="btn btn-outline-success" @click="applyToWalk(walk.request_id)">Apply</button>
+            <button v-else type="button" class="btn btn-outline-secondary btn-sm" @click="dismissWalk(walk.request_id)">Dismiss</button>
           </div>
         </div>
       </div>
@@ -45,7 +47,6 @@
         const walks = ref([]);
         const message = ref('');
         const error = ref('');
-        const user = 3;
 
         async function loadWalkRequests() {
           try {
@@ -60,9 +61,7 @@
         async function applyToWalk(requestId) {
           try {
             const res = await fetch(`/api/walks/${requestId}/apply`, {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ walker_id: user })
+              method: 'POST'
             });
             const result = await res.json();
 
@@ -76,6 +75,10 @@
           }
         }
 
+        function dismissWalk(requestId) {
+          walks.value = walks.value.filter(walk => walk.request_id !== requestId);
+        }
+
         onMounted(() => {
           loadWalkRequests();
         });
@@ -84,7 +87,8 @@
           walks,
           message,
           error,
-          applyToWalk
+          applyToWalk,
+          dismissWalk
         };
       }
     }).mount('#app');
