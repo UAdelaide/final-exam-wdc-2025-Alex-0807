@@ -10,7 +10,9 @@ const dbConfig = {
   user: 'root',
   password: 'jlccXHY0807!',
   database: 'dogwalks',
-
+  waitForConnections: true,
+  connectionLimit: 10，
+  queueLimit: @
 };
 
 let db;
