@@ -336,7 +336,7 @@ document.addEventListener('DOMContentLoaded', function() {
         alert('please choose a dog');
         return;
       }
-      // 这里假设 walkId 就是 dogId，或根据实际业务调整
+      
       await applyToWalk(Number(dogId));
     });
   }
