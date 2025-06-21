@@ -79,7 +79,7 @@ router.get('/my-dogs', async (req, res) => {
   }
   const ownerId = req.session.user.user_id;
   try {
-    // 假设 dogs 表结构为：dog_id, owner_id, name, size
+    // structure: dog_id, owner_id, name, size
     const [rows] = await db.query('SELECT dog_id, name FROM dogs WHERE owner_id = ?', [ownerId]);
     res.json(rows);
   } catch (error) {
