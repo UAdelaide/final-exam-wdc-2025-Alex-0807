@@ -80,8 +80,9 @@ async function setupDatabase() {
     )
   `);
 
-  // 插入测试数据 - [已修复]
-  // 将哈希密码替换为可用的明文密码，以便登录功能可以正常工作
+  // insert initial data
+  // I replaced the hardcoded password strings with simple ones for testing purposes.
+  console.log('start setting up database');
   await db.execute(`
     INSERT INTO users (username, email, password_hash, role) VALUES
     ('alice123', 'alice@example.com', 'password123', 'owner'),
