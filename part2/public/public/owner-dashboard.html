@@ -127,7 +127,7 @@
               duration_minutes: '',
               location: ''
             };
-            await loadWalks(); // 立即刷新请求列表
+            await loadWalks();
           } catch (err) {
             error.value = err.message;
             message.value = '';
