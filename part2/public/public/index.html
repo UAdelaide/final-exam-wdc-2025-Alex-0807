@@ -33,7 +33,7 @@
         </div>
       </div>
     </div>
-    
+
     <div v-if="loginError" class="alert alert-danger mt-3">{{ loginError }}</div>
 
     <hr class="my-5">
@@ -107,7 +107,19 @@
             if (!res.ok) {
               throw new Error(data.error || `Failed to fetch dog list. Server responded with status ${res.status}.`);
             }
-            
+
+            await Promise.all(
+              data.map(async dog => {
+                try {
+                  const imgRes = await fetch('https://dog.ceo/api/breeds/image/random');
+                  const imgData = await imgRes.json();
+                  dog.photo_url = imgData.message;               // 外部 API 成功
+                } catch {
+                  dog.photo_url = 'https://via.placeholder.com/100?text=No+Image'; // 兜底占位图
+                }
+              })
+            );
+
             dogs.value = data;
             if (dogs.value.length === 0) {
               dogsError.value = 'The dog list is empty. Please make sure you have run the database initialization script to add sample data.';
