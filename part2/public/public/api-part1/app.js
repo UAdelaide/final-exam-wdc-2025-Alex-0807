@@ -110,7 +110,7 @@ async function setupDatabase() {
     ((SELECT request_id FROM walk_requests WHERE dog_id = (SELECT dog_id FROM dogs WHERE name = 'Rocky')), (SELECT user_id FROM users WHERE username = 'bobwalker'), (SELECT user_id FROM users WHERE username = 'alice123'), 4)
   `);
 
-  console.log('数据库初始化完成');
+  console.log('finish setting up database');
 }
 
 // API端点
