@@ -83,7 +83,7 @@ router.get('/my-dogs', async (req, res) => {
     const [rows] = await db.query('SELECT dog_id, name FROM dogs WHERE owner_id = ?', [ownerId]);
     res.json(rows);
   } catch (error) {
-    res.status(500).json({ error: '获取狗列表失败' });
+    res.status(500).json({ error: 'failed to fetch' });
   }
 });
 
