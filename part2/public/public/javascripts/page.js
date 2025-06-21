@@ -212,8 +212,7 @@ function logout(){
 
 }
 
-// 新增：登录表单提交事件
-// 页面加载后绑定登录表单事件
+
 
 document.addEventListener('DOMContentLoaded', function() {
   const loginForm = document.getElementById('loginForm');
@@ -223,7 +222,7 @@ document.addEventListener('DOMContentLoaded', function() {
       const username = document.getElementById('username').value;
       const password = document.getElementById('password').value;
 
-      // 发送登录请求
+
       const res = await fetch('/api/users/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
