@@ -321,12 +321,12 @@ async function loadMyDogs() {
 // 页面加载时填充狗狗下拉框，并绑定表单提交事件
 
 document.addEventListener('DOMContentLoaded', function() {
-  // 填充狗狗下拉框
+  // fill the 
   if (document.getElementById('dogSelect')) {
     loadMyDogs();
   }
 
-  // 绑定表单提交
+  // submit
   const walkForm = document.getElementById('walkRequestForm');
   if (walkForm) {
     walkForm.addEventListener('submit', async function(e) {
@@ -336,7 +336,7 @@ document.addEventListener('DOMContentLoaded', function() {
         alert('please choose a dog');
         return;
       }
-      
+
       await applyToWalk(Number(dogId));
     });
   }
