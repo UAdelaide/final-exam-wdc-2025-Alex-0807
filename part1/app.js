@@ -11,7 +11,7 @@ const dbConfig = {
   password: 'jlccXHY0807!',
   database: 'dogwalks',
   waitForConnections: true,
-  connectionLimit: 10，
+  connectionLimit: 10,
   queueLimit: 0
 };
 
