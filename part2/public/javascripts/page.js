@@ -271,8 +271,8 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 /**
- * 异步获取当前登录用户信息
- * 调用 /api/users/me，返回用户对象（包含 user_id、username、role 等）
+ * get user information of current logged in user
+ * 调用 /api/users/me，return object user_id、username、role
  */
 //return object with user_id, username, role
 async function getCurrentUser() {
@@ -285,8 +285,8 @@ async function getCurrentUser() {
 }
 
 /**
- * 申请遛狗任务
- * @param {number} walkId - 要申请的遛狗任务ID
+ *
+ * @param {number} walkId - ID
  */
 async function applyToWalk(walkId) {
     // get current user
