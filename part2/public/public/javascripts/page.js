@@ -318,7 +318,7 @@ async function loadMyDogs() {
   }
 }
 
-// 页面加载时填充狗狗下拉框，并绑定表单提交事件
+// fill the drop down menu
 
 document.addEventListener('DOMContentLoaded', function() {
   // fill the dog select dropdown
