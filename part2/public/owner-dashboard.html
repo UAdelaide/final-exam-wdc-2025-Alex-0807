@@ -129,7 +129,7 @@
               duration_minutes: '',
               location: ''
             };
-            await loadWalks(); // 立即刷新请求列表
+            await loadWalks(); // refresh 
           } catch (err) {
             error.value = err.message;
             message.value = '';
