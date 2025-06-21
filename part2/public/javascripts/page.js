@@ -257,9 +257,8 @@ document.addEventListener('DOMContentLoaded', function () {
     console.log('[logout] script loaded — btn =', logoutBtn);
     if (logoutBtn) {
         logoutBtn.addEventListener('click', async function () {
-            //
+            //calling logout API
             console.log('log out clicked');
-
             await fetch('/api/users/logout', { method: 'POST' });
             document.cookie.split(';').forEach(function (c) {
                 document.cookie = c.replace(/^ +/, '').replace(/=.*/, '=;expires=' + new Date().toUTCString() + ';path=/');
