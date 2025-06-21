@@ -75,7 +75,7 @@ router.get('/my-requests', async (req, res) => {
   const ownerId = req.session.user.user_id;
 
   try {
-    // 恢复成正式代码
+   
     const [rows] = await db.query(`
       SELECT wr.*, d.name AS dog_name, d.size
       FROM walk_requests wr
