@@ -7,7 +7,7 @@ const port = 8080;
 // 数据库连接配置
 const dbConfig = {
   host: 'localhost',
-  user: 'root',      // MySQL用户名
+  user: 'dogapp',      // MySQL user name
   password: '0615',
   database: 'dogwalks'
 };
@@ -198,4 +198,4 @@ app.get('/api/walkers/summary', async (req, res) => {
   } catch (err) {
     console.error('Failed to start server:', err);
   }
-})(); 
+})();
