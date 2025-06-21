@@ -336,18 +336,18 @@ document.addEventListener('DOMContentLoaded', function() {
         alert('please choose a dog');
         return;
       }
-     
+
       await applyToWalk(Number(dogId));
     });
   }
 });
 
-// 加载walk请求（只显示 status 为 'open' 的 walk）
+// load walk request
 async function loadWalks() {
   try {
     const res = await fetch('/api/walks');
     const allWalks = await res.json();
-    // 只显示未被申请的walk
+    // only unapplied walks
     if (typeof walks !== 'undefined') {
       walks.value = allWalks.filter(walk => walk.status === 'open');
     }
