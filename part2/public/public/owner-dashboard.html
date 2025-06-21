@@ -86,7 +86,7 @@
         const message = ref('');
         const error = ref('');
 
-        // 加载狗狗列表
+        
         async function loadDogs() {
           try {
             const res = await fetch('/api/users/my-dogs');
@@ -96,10 +96,9 @@
           }
         }
 
-        // 加载walk请求 - [已修复]
         async function loadWalks() {
           try {
-            // 将请求的 URL 修改为新的、专门为主人设计的接口
+
             const res = await fetch('/api/walks/my-requests');
             walks.value = await res.json();
           } catch (err) {
@@ -107,7 +106,7 @@
           }
         }
 
-        // 提交walk请求
+
         async function submitWalkRequest() {
           try {
             const res = await fetch('/api/walks', {
