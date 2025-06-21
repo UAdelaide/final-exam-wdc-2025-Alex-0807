@@ -71,13 +71,14 @@ async function setupDatabase() {
     )
   `);
 
-  // 插入测试数据
+  // 插入测试数据 - [已修复]
+  // 将哈希密码替换为可用的明文密码，以便登录功能可以正常工作
   await db.execute(`
     INSERT INTO users (username, email, password_hash, role) VALUES
-    ('alice123', 'alice@example.com', 'hashed123', 'owner'),
-    ('bobwalker', 'bob@example.com', 'hashed456', 'walker'),
-    ('carol123', 'carol@example.com', 'hashed789', 'owner'),
-    ('emilywong', 'emily@example.com', 'hashed112', 'walker')
+    ('alice123', 'alice@example.com', 'password123', 'owner'),
+    ('bobwalker', 'bob@example.com', 'password456', 'walker'),
+    ('carol123', 'carol@example.com', 'password789', 'owner'),
+    ('emilywong', 'emily@example.com', 'password112', 'walker')
   `);
 
   await db.execute(`
