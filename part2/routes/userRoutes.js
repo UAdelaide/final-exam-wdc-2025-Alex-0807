@@ -51,17 +51,17 @@ router.post('/login', async (req, res) => {
       return res.status(401).json({ error: 'Invalid credentials' });
     }
 
-    // login success,  session
+    // login success, store information into session
     req.session.user = rows[0];
 
-    // 返回角色，前端可据此跳转
+    // return the role
     res.json({ message: 'log in successful', role: rows[0].role });
   } catch (error) {
     res.status(500).json({ error: 'Login failed' });
   }
 });
 
-// 新增：注销接口
+// logout 
 router.post('/logout', (req, res) => {
   req.session.destroy(err => {
     if (err) {
