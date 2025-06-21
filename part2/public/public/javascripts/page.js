@@ -342,7 +342,7 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 });
 
-// 加载walk请求（只显示 status 为 'open' 的 walk）
+// load walks when the page loads
 async function loadWalks() {
   try {
     const res = await fetch('/api/walks');
