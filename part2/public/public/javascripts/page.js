@@ -318,10 +318,10 @@ async function loadMyDogs() {
   }
 }
 
-// 页面加载时填充狗狗下拉框，并绑定表单提交事件
+
 
 document.addEventListener('DOMContentLoaded', function() {
-  // 填充狗狗下拉框
+  // fill  info
   if (document.getElementById('dogSelect')) {
     loadMyDogs();
   }
