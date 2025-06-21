@@ -257,7 +257,7 @@ document.addEventListener('DOMContentLoaded', function () {
     console.log('[logout] script loaded — btn =', logoutBtn);
     if (logoutBtn) {
         logoutBtn.addEventListener('click', async function () {
-            // 调用后端注销接口
+            //
             console.log('log out clicked');
 
             await fetch('/api/users/logout', { method: 'POST' });
