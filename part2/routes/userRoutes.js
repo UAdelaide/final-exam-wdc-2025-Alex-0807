@@ -39,7 +39,7 @@ router.get('/me', (req, res) => {
 
 // POST login (dummy version)
 router.post('/login', async (req, res) => {
-  const { username, password } = req.body; // 
+  const { username, password } = req.body; //
 
   try {
     const [rows] = await db.query(`
@@ -72,10 +72,10 @@ router.post('/logout', (req, res) => {
   });
 });
 
-// 获取当前登录用户的所有狗
+// get my dogs
 router.get('/my-dogs', async (req, res) => {
   if (!req.session.user) {
-    return res.status(401).json({ error: '未登录' });
+    return res.status(401).json({ error: 'not logged in' });
   }
   const ownerId = req.session.user.user_id;
   try {
@@ -83,7 +83,7 @@ router.get('/my-dogs', async (req, res) => {
     const [rows] = await db.query('SELECT dog_id, name FROM dogs WHERE owner_id = ?', [ownerId]);
     res.json(rows);
   } catch (error) {
-    res.status(500).json({ error: '获取狗列表失败' });
+    res.status(500).json({ error: 'failed to get the dog' });
   }
 });
 
