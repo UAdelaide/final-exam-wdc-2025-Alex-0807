@@ -264,7 +264,7 @@ document.addEventListener('DOMContentLoaded', function () {
             document.cookie.split(';').forEach(function (c) {
                 document.cookie = c.replace(/^ +/, '').replace(/=.*/, '=;expires=' + new Date().toUTCString() + ';path=/');
             });
-            // 跳转回登录页
+            // jump to index.html
             window.location.href = 'index.html';
         });
     }
