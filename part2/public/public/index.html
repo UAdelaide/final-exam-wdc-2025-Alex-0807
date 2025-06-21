@@ -113,9 +113,9 @@
                 try {
                   const imgRes = await fetch('https://dog.ceo/api/breeds/image/random');
                   const imgData = await imgRes.json();
-                  dog.photo_url = imgData.message;               // 外部 API 成功
+                  dog.photo_url = imgData.message;
                 } catch {
-                  dog.photo_url = 'https://via.placeholder.com/100?text=No+Image'; // 兜底占位图
+                  dog.photo_url = 'https://via.placeholder.com/100?text=No+Image'; 
                 }
               })
             );
