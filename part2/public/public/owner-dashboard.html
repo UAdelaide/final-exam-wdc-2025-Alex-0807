@@ -96,10 +96,11 @@
           }
         }
 
-        // 加载walk请求
+        // 加载walk请求 - [已修复]
         async function loadWalks() {
           try {
-            const res = await fetch('/api/walks');
+            // 将请求的 URL 修改为新的、专门为主人设计的接口
+            const res = await fetch('/api/walks/my-requests');
             walks.value = await res.json();
           } catch (err) {
             error.value = 'Failed to load walk requests';

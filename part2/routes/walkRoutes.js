@@ -27,8 +27,8 @@ router.post('/', async (req, res) => {
 
   try {
     const [result] = await db.query(`
-      INSERT INTO WalkRequests (dog_id, requested_time, duration_minutes, location)
-      VALUES (?, ?, ?, ?)
+      INSERT INTO walk_requests (dog_id, requested_time, duration_minutes, location, status)
+      VALUES (?, ?, ?, ?, 'open')
     `, [dog_id, requested_time, duration_minutes, location]);
 
     res.status(201).json({ message: 'Walk request created', request_id: result.insertId });
@@ -40,24 +40,52 @@ router.post('/', async (req, res) => {
 // POST an application to walk a dog (from walker)
 router.post('/:id/apply', async (req, res) => {
   const requestId = req.params.id;
-  const { walker_id } = req.body;
+  const walkerId = req.session.user ? req.session.user.user_id : req.body.walker_id;
+
+  if (!walkerId) {
+    return res.status(401).json({ error: 'User not logged in' });
+  }
 
   try {
-    await db.query(`
-      INSERT INTO WalkApplications (request_id, walker_id)
-      VALUES (?, ?)
-    `, [requestId, walker_id]);
+    const [result] = await db.query(`
+      UPDATE walk_requests
+      SET status = 'accepted', walker_id = ?
+      WHERE request_id = ? AND status = 'open'
+    `, [walkerId, requestId]);
 
-    await db.query(`
-      UPDATE WalkRequests
-      SET status = 'accepted'
-      WHERE request_id = ?
-    `, [requestId]);
+    if (result.affectedRows === 0) {
+      return res.status(404).json({ error: 'Walk not found or already taken' });
+    }
 
-    res.status(201).json({ message: 'Application submitted' });
+    res.status(200).json({ message: 'Application submitted and approved' });
   } catch (error) {
     console.error('SQL Error:', error);
     res.status(500).json({ error: 'Failed to apply for walk' });
+  }
+});
+
+// [新增] 获取当前登录主人自己的所有 walk 请求
+router.get('/my-requests', async (req, res) => {
+  // 检查用户是否登录且角色是否为 owner
+  if (!req.session.user || req.session.user.role !== 'owner') {
+    return res.status(401).json({ error: 'Unauthorized: Not logged in as an owner' });
+  }
+
+  const ownerId = req.session.user.user_id;
+
+  try {
+    // 从数据库查询只属于这个主人的所有 walk 请求
+    const [rows] = await db.query(`
+      SELECT wr.*, d.name AS dog_name, d.size
+      FROM walk_requests wr
+      JOIN dogs d ON wr.dog_id = d.dog_id
+      WHERE d.owner_id = ?
+      ORDER BY wr.requested_time DESC
+    `, [ownerId]);
+    res.json(rows);
+  } catch (error) {
+    console.error('SQL Error fetching owner walks:', error);
+    res.status(500).json({ error: 'Failed to fetch your walk requests' });
   }
 });
 
