@@ -75,11 +75,11 @@ router.post('/logout', (req, res) => {
 // get all the dogs owned by the current user
 router.get('/my-dogs', async (req, res) => {
   if (!req.session.user) {
-    return res.status(401).json({ error: 'not log' });
+    return res.status(401).json({ error: 'not logged' });
   }
   const ownerId = req.session.user.user_id;
   try {
-    // 假设 dogs 表结构为：dog_id, owner_id, name, size
+    //
     const [rows] = await db.query('SELECT dog_id, name FROM dogs WHERE owner_id = ?', [ownerId]);
     res.json(rows);
   } catch (error) {
