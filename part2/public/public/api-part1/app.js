@@ -15,7 +15,7 @@ console.log('DB CONFIG IN USE ->', dbConfig);
 
 let db;
 
-// 数据库初始化
+// init
 async function setupDatabase() {
   // Connect to MySQL server without selecting a database to create it if it doesn't exist
   const { database, ...rootConfig } = dbConfig;
@@ -26,7 +26,7 @@ async function setupDatabase() {
   // Now connect to the newly created database
   db = await mysql.createConnection(dbConfig);
 
-  // 创建表
+  // create tables if they do not exist
   await db.execute(`DROP TABLE IF EXISTS ratings`);
   await db.execute(`DROP TABLE IF EXISTS walk_requests`);
   await db.execute(`DROP TABLE IF EXISTS dogs`);
