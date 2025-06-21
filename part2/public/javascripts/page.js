@@ -297,9 +297,9 @@ async function applyToWalk(walkId) {
         window.location.href = 'index.html';
         return;
     }
-    const walkerId = user.user_id; // get walker ID from user object
+    const walkerId = user.user_id; // get walker ID
 
-    // 发送申请请求到后端
+    // send apply request
     const res = await fetch('/api/walks/apply', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -307,10 +307,10 @@ async function applyToWalk(walkId) {
     });
 
     if (res.ok) {
-        alert('申请成功！');
+        alert('Success to apply！');
         // 可根据需要刷新页面或更新任务列表
     } else {
         const data = await res.json();
-        alert(data.error || '申请失败');
+        alert(data.error || 'failed to apply');
     }
 }
