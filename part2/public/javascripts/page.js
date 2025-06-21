@@ -289,7 +289,8 @@ async function getCurrentUser() {
  * @param {number} walkId - 要申请的遛狗任务ID
  */
 async function applyToWalk(walkId) {
-    // 通过 getCurrentUser 获取当前登录用户信息
+    // get current user
+    console.log('applyToWalk called with walkId:', walkId);
     const user = await getCurrentUser();
     if (!user) {
         alert('请先登录');
