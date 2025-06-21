@@ -224,7 +224,7 @@ document.addEventListener('DOMContentLoaded', function () {
             const password = document.getElementById('password').value;
             console.log('Login attempt:', username);
 
-            // 发送登录请求
+            // send login request
             const res = await fetch('/api/users/login', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -233,7 +233,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
             const data = await res.json();
             if (res.ok) {
-                // 根据角色跳转
+                // jump according to role
+                console.log('Login successful:');
+
                 if (data.role === 'owner') {
                     window.location.href = 'owner-dashboard.html';
                 } else if (data.role === 'walker') {
