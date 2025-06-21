@@ -51,7 +51,7 @@ router.post('/login', async (req, res) => {
       return res.status(401).json({ error: 'Invalid credentials' });
     }
 
-    // 登录成功，将用户信息存入 session
+    // login success,  session
     req.session.user = rows[0];
 
     // 返回角色，前端可据此跳转
