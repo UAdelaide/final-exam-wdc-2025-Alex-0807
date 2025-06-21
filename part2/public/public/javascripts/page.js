@@ -326,7 +326,7 @@ document.addEventListener('DOMContentLoaded', function() {
     loadMyDogs();
   }
 
-  // 绑定表单提交
+  // submit walk request form
   const walkForm = document.getElementById('walkRequestForm');
   if (walkForm) {
     walkForm.addEventListener('submit', async function(e) {
@@ -336,7 +336,7 @@ document.addEventListener('DOMContentLoaded', function() {
         alert('please choose a dog');
         return;
       }
-      // 这里假设 walkId 就是 dogId，或根据实际业务调整
+     
       await applyToWalk(Number(dogId));
     });
   }
