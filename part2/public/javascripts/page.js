@@ -212,8 +212,7 @@ function logout() {
 
 }
 
-// 新增：登录表单提交事件
-// 页面加载后绑定登录表单事件
+// submit login form
 
 document.addEventListener('DOMContentLoaded', function () {
     const loginForm = document.getElementById('loginForm');
