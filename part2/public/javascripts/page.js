@@ -240,7 +240,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     window.location.href = 'walker-dashboard.html';
                 }
             } else {
-                alert(data.error || '登录失败');
+                alert(data.error || 'fail to login');
             }
         });
     }
