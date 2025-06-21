@@ -7,7 +7,7 @@ const port = 8080;
 // 数据库连接配置
 const dbConfig = {
   host: 'localhost',
-  user: 'dogapp',      // MySQL user name
+  user: 'root',      // MySQL user name
   password: '0615',
   database: 'dogwalks'
 };
