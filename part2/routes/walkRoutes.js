@@ -65,9 +65,9 @@ router.post('/:id/apply', async (req, res) => {
   }
 });
 
-// [新增] 获取当前登录主人自己的所有 walk 请求
+// get all walk requests
 router.get('/my-requests', async (req, res) => {
-  // 检查用户是否登录且角色是否为 owner
+  // check is owner
   if (!req.session.user || req.session.user.role !== 'owner') {
     return res.status(401).json({ error: 'Unauthorized: Not logged in as an owner' });
   }
@@ -75,7 +75,7 @@ router.get('/my-requests', async (req, res) => {
   const ownerId = req.session.user.user_id;
 
   try {
-   
+
     const [rows] = await db.query(`
       SELECT wr.*, d.name AS dog_name, d.size
       FROM walk_requests wr
