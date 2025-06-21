@@ -8,9 +8,10 @@ const port = 8080;
 const dbConfig = {
   host: 'localhost',
   user: 'root',      // MySQL user name
-  password: '0615',
+  password: '',
   database: 'dogwalks'
 };
+console.log('DB CONFIG IN USE ->', dbConfig);
 
 let db;
 
